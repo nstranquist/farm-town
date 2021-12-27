@@ -162,3 +162,25 @@
 .menuDropdownItem:hover {
   background: rgba(230,230,230,.8);
 }
+
+.selectionMenuContainer {
+  position: absolute;
+  bottom: 10px;
+  height: 60px;
+  width: auto;
+}
+.selectionMenu {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.selectionMenuItem {
+  padding: 5px;
+  text-align: center;
+}
+.selectionMenuItem span {
+  display: block;
+}

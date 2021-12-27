@@ -21,8 +21,18 @@ const initialFarm = {
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
   ],
-  selectedTile: null
+  selectedTile: null,
+  isEditing: false,
+  state: ""
 }
+
+const farmStates = [
+  "",
+  "editing",
+  "selecting",
+  "buying",
+  "selling",
+]
 
 const actions = [
   // Expand Tiles
@@ -51,7 +61,11 @@ const useFarmStore = create(set => ({
       ...state.mipmap,
       ...new Array(state.width).fill(0)
     ]
-  }))
+  })),
+  setIsEditing: (isEditing = false) => set({ isEditing }),
+  setFarmState: (newState = "") => set({ state: newState }),
+  
+  reset: () => set(initialFarm)
 }))
 
 export default function Farm() {
@@ -110,6 +124,12 @@ export default function Farm() {
     }
   }
 
+  const handleSellTile = () => {
+    farm.setFarmState("editing")
+    farm.setIsEditing(true)
+
+  }
+
   return (
     <div className={homeStyles.container}>
       <Head>
@@ -124,18 +144,18 @@ export default function Farm() {
         <section className={styles.menuBar}>
           <h1>Farm Town</h1>
           {/* Profile Name, Level, Gold, Premo Currency, Links */}
+          <h4>Profile</h4>
         </section>
         <section className={styles.playContainer}>
-          {/* <h1>Farm Here</h1> */}
           <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-          <div className={styles.farmContainer} style={{gridTemplateColumns: `repeat(${farm.width}, 1fr)`, gridTemplateRows: `repeat(${farm.height}, 1fr)`}}>
-            {/* Render Farm by Height and Width */}
-            {renderFarm().map((tile, index) => (
-              <div className={`${styles.farmTile} ${farm.selectedTile === tile.index ? "selected" : ""}`} key={`${index}-${tile.type}`} onClick={() => handleSelectTile(tile)}>
-                <span>{tile.type}</span>
-              </div>
-            ))}
-          </div>
+            <div className={styles.farmContainer} style={{gridTemplateColumns: `repeat(${farm.width}, 1fr)`, gridTemplateRows: `repeat(${farm.height}, 1fr)`}}>
+              {/* Render Farm by Height and Width */}
+              {renderFarm().map((tile, index) => (
+                <div className={`${styles.farmTile} ${farm.selectedTile === tile.index ? "selected" : ""}`} key={`${index}-${tile.type}`} onClick={() => handleSelectTile(tile)}>
+                  <span>{tile.type}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           <ul className={styles.actionsContainer}>
@@ -175,17 +195,37 @@ export default function Farm() {
                 </li>
               </ul>
             </li>
-            <li className={`${styles.actionsItem}`}>
+            <li className={`${styles.actionsItem}`} onClick={handleSellTile}>
               <span>S</span>
               <span>Sell</span>
             </li>
           </ul>
+
+          {/* Selecting Menu */}
+          {farm.isEditing && (
+            <div className={styles.selectionMenuContainer}>
+              <ul className={styles.selectionMenu}>
+                {/* Depending on Active Action */}
+                {farm.state === "selling" || farm.state === "editing" && (
+                  <>
+                    <li className={styles.selectionMenuItem}>
+                      Sell
+                    </li>
+                    <li className={styles.selectionMenuItem}>
+                      <span>X</span>
+                      <span>Cancel</span>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
+          )}
         </section>
 
         <section className={styles.controlsContainer}>
           <header className={styles.controlsHeader}>
             <h3>Controls</h3>
-            <div className={styles.controlsSettings} onClick={() => setFarm({...initialFarm})}>
+            <div className={styles.controlsSettings} onClick={() => farm.reset()}>
               <span>Clear</span>
             </div>
           </header>
