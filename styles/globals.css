@@ -14,3 +14,8 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.selected:hover {
+  background: rgba(152,251,152, 1);
+  border-color: rgba(0,0,0,.5) !important;
+}

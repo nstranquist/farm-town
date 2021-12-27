@@ -18,13 +18,15 @@ const initialFarm = {
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
-  ]
+  ],
+  selectedTile: null
 }
 
 const useFarmStore = create(set => ({
   ...initialFarm,
   increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 })
+  removeAllBears: () => set({ bears: 0 }),
+  selectTile: (index) => set({ selectedTile: index })
 }))
 
 export default function Farm() {
@@ -35,8 +37,9 @@ export default function Farm() {
 
   const renderFarm = useCallback(() => {
     // return array of farm objects
-    let farms = farm.mipmap.map(tileType => {
+    let farms = farm.mipmap.map((tileType, index) => {
       return {
+        index,
         type: tileType,
         // ... other data
       }
@@ -50,6 +53,10 @@ export default function Farm() {
 
   }, [])
 
+  const handleSelectTile = tile => {
+    farm.selectTile(tile.index)
+  }
+
   return (
     <div className={homeStyles.container}>
       <Head>
@@ -57,6 +64,8 @@ export default function Farm() {
         <meta name="description" content="Create a farm to play with" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <style jsx>{`.selected {background: rgba(152,251,152, 1);border-color: rgba(0,0,0,.1);}`}</style>
 
       <main className={homeStyles.main}>
         <section className={styles.menuBar}>
@@ -68,11 +77,29 @@ export default function Farm() {
           <div className={styles.farmContainer} style={{gridTemplateColumns: `repeat(${farm.width}, 1fr)`, gridTemplateRows: `repeat(${farm.height}, 1fr)`}}>
             {/* Render Farm by Height and Width */}
             {renderFarm().map((tile, index) => (
-              <div className={styles.farmTile} key={`${index}-${tile.type}`}>
+              <div className={`${styles.farmTile} ${farm.selectedTile === tile.index ? "selected" : ""}`} key={`${index}-${tile.type}`} onClick={() => handleSelectTile(tile)}>
                 <span>{tile.type}</span>
               </div>
             ))}
           </div>
+        </section>
+
+        <section className={styles.controlsContainer}>
+          <header className={styles.controlsHeader}>
+            <h3>Controls</h3>
+            <div className={styles.controlsSettings}>
+              <span>Hey</span>
+            </div>
+          </header>
+
+          {/* Controls List */}
+          <ul className={styles.controlsList}>
+            {Object.keys(farm).filter(key => key !== "mipmapExample").map((key, ind) => (
+              <li key={`${ind}-${key}`} className={styles.controlsItem}>
+                {key}: {farm[key] ? farm[key].toString() : "undef"}
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
     </div>
