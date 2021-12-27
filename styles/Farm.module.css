@@ -17,7 +17,7 @@
 }
 
 .playContainer {
-
+  
 }
 
 .farmContainer {
@@ -26,17 +26,19 @@
   grid-template-rows: repeat(5, 1fr);
 }
 .farmTile {
-  height: 25px;
-  width: 25px;
+  height: 60px;
+  width: 60px;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid rgba(0,0,0,.025);
   background: #fff;
+  text-align: center;
+  line-height: 60px;
   transition: 0.05s ease-in-out;
 }
 .farmTile:hover, .farmTile.selected:hover {
   border-color: rgba(0,0,0,.5);
   background: rgba(152,251,152, 1);
-  transition: 0.05s ease-in-out;
+  transition: 0.035s ease-in-out;
 }
 
 .controlsContainer {
@@ -77,6 +79,7 @@
 }
 .controlsItem {
   padding: 6px 12px;
+  word-break: break-all;
   border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
@@ -84,10 +87,78 @@
   position: relative;
   margin-left: 300px;
   height: 100%;
+  /* width: 100%; */
+  width: calc(100vw - 300px);
 }
 
 @media(min-width: 1500px) {
   .playContainer {
     margin-left: 20vw;
+    width: 80vw;
   }
+}
+
+.actionsContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 60px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid rgba(0,0,0,.15);
+  list-style: none;
+  padding-left: 0px;
+}
+.actionsItem {
+  cursor: pointer;
+  padding: 5px 0;
+  width: 60px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.actionsItem:hover {  
+  background: rgba(0,0,0,.1);
+}
+.actionsItem:first-child {
+  border-top: 1px solid rgba(0,0,0,.1);
+}
+.actionsItem span { display: block; word-break: break-all; }
+.actionsItemMenu {
+  position: relative;
+
+  /* Organize Icon and Lower Label */
+  text-align: center;
+}
+.actionsItemMenu:hover .menuDropdown {
+  display: block;
+  visibility: visible;
+}
+
+.menuDropdown {
+  position: absolute;
+  left: -200px;
+  /* right: -60px; */
+  top: 0;
+  height: auto;
+  min-width: 200px;
+  list-style: none;
+  padding-left: 0;
+  z-index: 1000;
+  display: none;
+  visibility: none;
+  border: 1px solid rgba(0,0,0,.15);
+}
+.menuDropdownItem {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(0,0,0,.15);
+}
+.menuDropdownItem:hover {
+  background: rgba(230,230,230,.8);
 }

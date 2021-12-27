@@ -5,6 +5,8 @@ import homeStyles from '../styles/Home.module.css'
 import styles from '../styles/Farm.module.css'
 import create from 'zustand'
 
+const MAX_TILES = 15 // max tiles in any direction, so max grid is 15x15=225
+
 const initialWidth = 5
 const initialHeight = 5
 
@@ -22,11 +24,34 @@ const initialFarm = {
   selectedTile: null
 }
 
+const actions = [
+  // Expand Tiles
+  "buy-tile-left",
+  "buy-tile-right",
+  "buy-tile-top",
+  "buy-tile-bottom",
+
+]
+
 const useFarmStore = create(set => ({
   ...initialFarm,
-  increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  selectTile: (index) => set({ selectedTile: index })
+  selectTile: (index) => set({ selectedTile: index }),
+  addTileLeft: () => set(state => ({
+    width: state.width + 1,
+    // 0, 6, 11 elements should be replaced
+    mipmap: [
+      ...state.mipmap,
+      ...new Array(state.height).fill(0)
+      // ...
+    ]
+  })),
+  addTileTop: () => set(state => ({
+    height: state.height + 1,
+    mipmap: [
+      ...state.mipmap,
+      ...new Array(state.width).fill(0)
+    ]
+  }))
 }))
 
 export default function Farm() {
@@ -57,6 +82,34 @@ export default function Farm() {
     farm.selectTile(tile.index)
   }
 
+  const buyTile = direction => {
+    if((direction === "left" || direction === "right") && farm.width + 1 >= MAX_TILES)
+      return;
+    if((direction === "top" || direction === "bottom") && farm.height + 1 >= MAX_TILES)
+      return;
+
+    switch(direction) {
+      case "left":
+        farm.addTileLeft()
+        break;
+      case "right":
+        farm.addTileLeft()
+
+        break;
+      case "top":
+        farm.addTileTop()
+
+        break;
+      case "bottom":
+        farm.addTileTop()
+
+        break;
+      default:
+        console.log('unkown option')
+        break;
+    }
+  }
+
   return (
     <div className={homeStyles.container}>
       <Head>
@@ -74,6 +127,7 @@ export default function Farm() {
         </section>
         <section className={styles.playContainer}>
           {/* <h1>Farm Here</h1> */}
+          <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
           <div className={styles.farmContainer} style={{gridTemplateColumns: `repeat(${farm.width}, 1fr)`, gridTemplateRows: `repeat(${farm.height}, 1fr)`}}>
             {/* Render Farm by Height and Width */}
             {renderFarm().map((tile, index) => (
@@ -82,13 +136,57 @@ export default function Farm() {
               </div>
             ))}
           </div>
+          </div>
+
+          <ul className={styles.actionsContainer}>
+            <li className={`${styles.actionsItem} ${styles.actionsItemMenu}`}>
+              <span>I</span>
+              <span>Buy Tile</span>
+              <ul className={styles.menuDropdown}>
+                <li className={styles.menuDropdownItem} onClick={() => buyTile("left")}>
+                  Expand Left ($500)
+                </li>
+                <li className={styles.menuDropdownItem} onClick={() => buyTile("right")}>
+                  Expand Right ($500)
+                </li>
+                <li className={styles.menuDropdownItem} onClick={() => buyTile("top")}>
+                  Expand Up ($500)
+                </li>
+                <li className={styles.menuDropdownItem} onClick={() => buyTile("bottom")}>
+                  Expand Down ($500)
+                </li>
+              </ul>
+            </li>
+            <li className={`${styles.actionsItem} ${styles.actionsItemMenu}`}>
+              <span>B</span>
+              <span>Build</span>
+              <ul className={styles.menuDropdown}>
+                <li className={styles.menuDropdownItem}>
+                  Housing
+                </li>
+                <li className={styles.menuDropdownItem}>
+                  Landscape
+                </li>
+                <li className={styles.menuDropdownItem}>
+                  Factory
+                </li>
+                <li className={styles.menuDropdownItem}>
+                  Attraction
+                </li>
+              </ul>
+            </li>
+            <li className={`${styles.actionsItem}`}>
+              <span>S</span>
+              <span>Sell</span>
+            </li>
+          </ul>
         </section>
 
         <section className={styles.controlsContainer}>
           <header className={styles.controlsHeader}>
             <h3>Controls</h3>
-            <div className={styles.controlsSettings}>
-              <span>Hey</span>
+            <div className={styles.controlsSettings} onClick={() => setFarm({...initialFarm})}>
+              <span>Clear</span>
             </div>
           </header>
 
@@ -96,7 +194,7 @@ export default function Farm() {
           <ul className={styles.controlsList}>
             {Object.keys(farm).filter(key => key !== "mipmapExample").map((key, ind) => (
               <li key={`${ind}-${key}`} className={styles.controlsItem}>
-                {key}: {farm[key] ? farm[key].toString() : "undef"}
+                {key}: {farm[key] ? typeof farm[key] !== "function" ? farm[key].toString() : "() => ..." : "undef"}
               </li>
             ))}
           </ul>
