@@ -127,5 +127,16 @@ describe("Farm Town's Farm", () => {
         [0, 1, 0, 0, 5],
       ])
     })
+
+    it("throws an appropriate error when position is out of bounds", () => {
+      expect(() => farm.buildPlot({x: -1, y: 0}, 1)).toThrow()
+      expect(() => farm.buildPlot({x: 6, y: 0}, 1)).toThrow()
+      expect(() => farm.buildPlot({x: 0, y: 5}, 1)).toThrow()
+      expect(() => farm.buildPlot({x: 0, y: -1}, 1)).toThrow()
+    })
+
+    xit("throws an appropriate error when the value is invalid", () => {
+
+    })
   })
 })
