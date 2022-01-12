@@ -7,9 +7,7 @@ import Farm from '../farm'
 describe("Farm Town's Farm", () => {
   let farm;
 
-  beforeEach(() => {
-    farm = new Farm()
-  })
+  beforeEach(() => farm = new Farm())
 
   describe("Farm initialization", () => {
     it("initializes farm with correct initial data structures", () => {
@@ -88,6 +86,28 @@ describe("Farm Town's Farm", () => {
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
+      ])
+    })
+  })
+
+  describe("Farm Buy/Sell plots", () => {
+    beforeEach(() => farm = new Farm())
+
+    it("assigns a mipmap value to the farm at the provided index", () => {
+      const buildingValue = 1; // "home"
+      const plotPosition = {
+        x: 1,
+        y: 4
+      }
+
+      farm.buildPlot(plotPosition, buildingValue)
+
+      expect(farm.mipmap).toEqual([
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
       ])
     })
   })

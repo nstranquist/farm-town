@@ -44,4 +44,8 @@ export class Farm {
 
     this.height += 1
   }
+
+  buildPlot(position, value) {
+
+  }
 }
