@@ -11,24 +11,20 @@ export class Farm {
     )
   }
 
-  // Add a column to the left/right of the mipmap
-  // Width increments
-  expandHorizontally(direction) {
-    if(direction !== "left" && direction !== "right")
-      throw new Error("Farm can only expand left/right horizontally")
-    
-    if(direction === "left") {
-      this.mipmap = this.mipmap.map((row, i) => {
-        return [0, ...row]
-      })
-    }
-    if(direction === "right") {
-      this.mipmap = this.mipmap.map((row, i) => {
-        return [...row, 0]
-      })
-    }
+  expandLeft() {
+    this.mipmap = this.mipmap.map((row, i) => {
+      return [0, ...row]
+    })
       
     this.width += 1;
+  }
+
+  expandRight() {
+    this.mipmap = this.mipmap.map((row, i) => {
+      return [...row, 0]
+    })
+
+    this.width += 1
   }
 
   expandTop() {
