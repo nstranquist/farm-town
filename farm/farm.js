@@ -39,4 +39,8 @@ export class Farm {
     
     this.height += 1;
   }
+
+  expandBottom() {
+    
+  }
 }
