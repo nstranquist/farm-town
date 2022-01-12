@@ -22,4 +22,8 @@ export class Farm {
     this.mipmap = newMipMap
     this.width += 1;
   }
+
+  expandRight() {
+    
+  }
 }

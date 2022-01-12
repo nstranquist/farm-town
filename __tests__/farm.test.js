@@ -42,5 +42,21 @@ describe("Farm Town's Farm", () => {
         [0, 0, 0, 0, 0, 0],
       ])
     })
+
+    it("expands 1 dimension to the right", () => {
+      let prevWidth = farm.width;
+      farm.expandRight()
+
+      expect(farm.width).toEqual(prevWidth + 1)
+
+      // NOTE: hard to tell if adding new values correctly since all are 0's
+      expect(farm.mipmap).toEqual([
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+      ])
+    })
   })
 })
