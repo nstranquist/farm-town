@@ -58,5 +58,21 @@ describe("Farm Town's Farm", () => {
         [0, 0, 0, 0, 0, 0],
       ])
     })
+
+    it("expands 1 dimension to the top", () => {
+      let prevHeight = farm.height;
+      farm.expandTop()
+
+      expect(farm.height).toEqual(prevHeight + 1)
+
+      expect(farm.mipmap).toEqual([
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+      ])
+    })
   })
 })

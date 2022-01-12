@@ -30,4 +30,13 @@ export class Farm {
       
     this.width += 1;
   }
+
+  expandTop() {
+    // this.mipmap = [
+    //   new Array(this.width).fill(0),
+    //   ...this.mipmap
+    // ]
+    
+    this.height += 1;
+  }
 }
