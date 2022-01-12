@@ -2,6 +2,9 @@
 const INITIAL_WIDTH = 5;
 const INITIAL_HEIGHT = 5;
 
+// temp
+const MAX_CODE = 100
+
 export class Farm {
   constructor() {
     this.width = INITIAL_WIDTH;
