@@ -24,6 +24,11 @@ export class Farm {
   }
 
   expandRight() {
-    
+    const newMipMap = this.mipmap.map((row, i) => {
+      return [...row, 0]
+    })
+
+    this.mipmap = newMipMap
+    this.width += 1;
   }
 }
