@@ -30,6 +30,8 @@ export class Farm {
     })
       
     this.width += 1;
+
+    console.log('left')
   }
 
   expandRight() {
