@@ -30,7 +30,7 @@ describe("Farm Town's Farm", () => {
 
     it("expands 1 dimension to the left", () => {
       let prevWidth = farm.width;
-      farm.expandLeft()
+      farm.expandHorizontally("left")
 
       expect(farm.width).toEqual(prevWidth + 1)
 
@@ -45,7 +45,7 @@ describe("Farm Town's Farm", () => {
 
     it("expands 1 dimension to the right", () => {
       let prevWidth = farm.width;
-      farm.expandRight()
+      farm.expandHorizontally("right")
 
       expect(farm.width).toEqual(prevWidth + 1)
 

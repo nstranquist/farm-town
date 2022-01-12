@@ -11,24 +11,23 @@ export class Farm {
     )
   }
 
-  // Add a column to the left of the mipmap
-  // Width increases, every item on the row gets shifted
-  expandLeft() {
-    // Add 0 to beginning of each subarray in farm mipmap
-    const newMipMap = this.mipmap.map((row, i) => {
-      return [0, ...row]
-    })
-
-    this.mipmap = newMipMap
-    this.width += 1;
-  }
-
-  expandRight() {
-    const newMipMap = this.mipmap.map((row, i) => {
-      return [...row, 0]
-    })
-
-    this.mipmap = newMipMap
+  // Add a column to the left/right of the mipmap
+  // Width increments
+  expandHorizontally(direction) {
+    if(direction !== "left" && direction !== "right")
+      throw new Error("Farm can only expand left/right horizontally")
+    
+    if(direction === "left") {
+      this.mipmap = this.mipmap.map((row, i) => {
+        return [0, ...row]
+      })
+    }
+    if(direction === "right") {
+      this.mipmap = this.mipmap.map((row, i) => {
+        return [...row, 0]
+      })
+    }
+      
     this.width += 1;
   }
 }
