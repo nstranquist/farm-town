@@ -101,13 +101,30 @@ describe("Farm Town's Farm", () => {
       }
 
       farm.buildPlot(plotPosition, buildingValue)
-
       expect(farm.mipmap).toEqual([
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0],
         [0, 1, 0, 0, 0],
+      ])
+
+      farm.buildPlot({x: 0, y: 1}, 2)
+      expect(farm.mipmap).toEqual([
+        [0, 0, 0, 0, 0],
+        [2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0],
+      ])
+
+      farm.buildPlot({x: 4, y: 4}, 5)
+      expect(farm.mipmap).toEqual([
+        [0, 0, 0, 0, 0],
+        [2, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 5],
       ])
     })
   })
