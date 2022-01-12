@@ -5,8 +5,14 @@ import {
 const INITIAL_WIDTH = 5;
 const INITIAL_HEIGHT = 5;
 
-// temp
-const MAX_CODE = 100
+// will update as new buildings are added
+export const BUILDING_CODES = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  11, 12, 13,
+  21, 22, 23, 24, 25,
+  31, 32,
+  41, 42, 43, 44, 45, 46, 47
+]
 
 export class Farm {
   constructor() {
@@ -55,7 +61,7 @@ export class Farm {
     validateBuildPlot(position, value, {
       width: this.width,
       height: this.height,
-      MAX_CODE
+      BUILDING_CODES
     })
 
     let row = this.mipmap[position.y]

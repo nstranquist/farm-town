@@ -1,4 +1,5 @@
 import Farm from '../farm'
+import { BUILDING_CODES } from '../farm/farm'
 
 
 // Arrange, Act, Assert
@@ -136,12 +137,9 @@ describe("Farm Town's Farm", () => {
     })
 
     it("throws an appropriate error when the building value is invalid", () => {
-      // TODO: Change to array of accepted building codes
-      const MAX_CODE = 100
-
       expect(() => farm.buildPlot({x: 0, y: 0}, -1)).toThrow()
       expect(() => farm.buildPlot({x: 0, y: 0}, 0)).toThrow()
-      expect(() => farm.buildPlot({x: 0, y: 0}, MAX_CODE + 1)).toThrow()
+      expect(() => farm.buildPlot({x: 0, y: 0}, 101)).toThrow()
     })
   })
 })
