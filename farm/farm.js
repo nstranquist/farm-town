@@ -71,4 +71,8 @@ export class Farm {
       ...row.slice(position.x + 1, row.length)
     ]
   }
+
+  clearPlot() {
+    
+  }
 }

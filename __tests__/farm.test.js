@@ -141,5 +141,13 @@ describe("Farm Town's Farm", () => {
       expect(() => farm.buildPlot({x: 0, y: 0}, 0)).toThrow()
       expect(() => farm.buildPlot({x: 0, y: 0}, 101)).toThrow()
     })
+
+    it("resets a specified plot of farm land to its initial state, 0", () => {
+      farm.buildPlot({x: 0, y: 0}, 1)
+
+      farm.clearPlot()
+
+      expect(farm.mipmap[0][0]).toEqual(0)
+    })
   })
 })
