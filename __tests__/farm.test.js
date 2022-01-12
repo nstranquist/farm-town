@@ -12,9 +12,10 @@ describe("Farm Town's Farm", () => {
   })
 
   describe("Farm initialization", () => {
-    it("initializes farm with correct height and width", () => {
+    it("initializes farm with correct initial data structures", () => {
       expect(farm.width).toEqual(5)
       expect(farm.height).toEqual(5)
+      expect(farm.mipmap).toEqual(new Array(25).fill(0))
     })
   })
 })
