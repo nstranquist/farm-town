@@ -12,6 +12,6 @@ export class Farm {
   // Add a column to the left of the mipmap
   // Width increases, every item on the row gets shifted
   expandLeft() {
-    
+    this.width += 1;
   }
 }
