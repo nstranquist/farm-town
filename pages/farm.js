@@ -125,9 +125,14 @@ export default function Farm() {
   }
 
   const handleSellTile = () => {
-    farm.setFarmState("editing")
-    farm.setIsEditing(true)
+    farm.selectTile(null)
+    farm.setFarmState(farm.isEditing ? "" : "editing")
+    farm.setIsEditing(!farm.isEditing)
+  }
 
+  const sellTile = () => {
+    // reset the mipmap to 0
+    // farm.setMi
   }
 
   return (
@@ -208,10 +213,11 @@ export default function Farm() {
                 {/* Depending on Active Action */}
                 {farm.state === "selling" || farm.state === "editing" && (
                   <>
-                    <li className={styles.selectionMenuItem}>
-                      Sell
+                    <li className={`${styles.selectionMenuItem} ${farm.selectedTile ? "" : styles.disabled}`} onClick={sellTile}>
+                      <span>S</span>
+                      <span>Sell</span>
                     </li>
-                    <li className={styles.selectionMenuItem}>
+                    <li className={styles.selectionMenuItem} onClick={handleSellTile}>
                       <span>X</span>
                       <span>Cancel</span>
                     </li>

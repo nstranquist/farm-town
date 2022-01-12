@@ -17,13 +17,24 @@
 }
 
 .playContainer {
-  
+  position: relative;
+  margin-top: 60px;
+  margin-left: 300px;
+  height: calc(100vh - 60px);
+  width: calc(100vw - 300px);
+  background:rgba(152,251,152, 1);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .farmContainer {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
+  grid-gap: 2px;
 }
 .farmTile {
   height: 60px;
@@ -83,14 +94,6 @@
   border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
-.playContainer {
-  position: relative;
-  margin-left: 300px;
-  height: 100%;
-  /* width: 100%; */
-  width: calc(100vw - 300px);
-}
-
 @media(min-width: 1500px) {
   .playContainer {
     margin-left: 20vw;
@@ -103,7 +106,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  height: 100%;
+  /* height: 100%; */
   width: 60px;
 
   display: flex;
@@ -114,6 +117,7 @@
   border: 1px solid rgba(0,0,0,.15);
   list-style: none;
   padding-left: 0px;
+  margin: 0;
 }
 .actionsItem {
   cursor: pointer;
@@ -121,9 +125,10 @@
   width: 60px;
   text-align: center;
   border-bottom: 1px solid rgba(0,0,0,.1);
+  background: #fff;
 }
 .actionsItem:hover {  
-  background: rgba(0,0,0,.1);
+  background: rgba(235,235,235,1);
 }
 .actionsItem:first-child {
   border-top: 1px solid rgba(0,0,0,.1);
@@ -131,7 +136,6 @@
 .actionsItem span { display: block; word-break: break-all; }
 .actionsItemMenu {
   position: relative;
-
   /* Organize Icon and Lower Label */
   text-align: center;
 }
@@ -152,6 +156,7 @@
   z-index: 1000;
   display: none;
   visibility: none;
+  background: #fff;
   border: 1px solid rgba(0,0,0,.15);
 }
 .menuDropdownItem {
@@ -168,6 +173,7 @@
   bottom: 10px;
   height: 60px;
   width: auto;
+  border: 1px solid rgba(0,0,0,.15);
 }
 .selectionMenu {
   list-style: none;
@@ -176,11 +182,28 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  margin: 0;
 }
 .selectionMenuItem {
-  padding: 5px;
+  /* padding: 5px; */
   text-align: center;
+  background: #fff;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.selectionMenuItem:hover {
+  background: rgba(235,235,235,1);
+}
+.selectionMenuItem.disabled {
+  opacity: .6;
+  cursor: default;
 }
 .selectionMenuItem span {
   display: block;
+  margin-bottom: 0;
 }
