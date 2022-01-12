@@ -18,4 +18,15 @@ describe("Farm Town's Farm", () => {
       expect(farm.mipmap).toEqual(new Array(25).fill(0))
     })
   })
+
+  describe("Farm expansion", () => {
+    beforeEach(() => farm = new Farm())
+
+    it("expands 1 dimension to the left", () => {
+      let prevWidth = farm.width;
+      farm.expandLeft()
+
+      expect(farm.width).toEqual(prevWidth + 1)
+    })
+  })
 })

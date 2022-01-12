@@ -8,4 +8,10 @@ export class Farm {
     this.height = INITIAL_HEIGHT;
     this.mipmap = new Array(INITIAL_WIDTH * INITIAL_HEIGHT).fill(0)
   }
+
+  // Add a column to the left of the mipmap
+  // Width increases, every item on the row gets shifted
+  expandLeft() {
+    
+  }
 }
