@@ -12,6 +12,9 @@ export class Farm {
   // Add a column to the left of the mipmap
   // Width increases, every item on the row gets shifted
   expandLeft() {
+    const expansion = new Array(this.height).fill(0)
+    this.mipmap = [...this.mipmap, ...expansion]
+    
     this.width += 1;
   }
 }
