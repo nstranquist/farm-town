@@ -1,3 +1,6 @@
+import {
+  validateBuildPlot,
+} from './farm-validator'
 
 const INITIAL_WIDTH = 5;
 const INITIAL_HEIGHT = 5;
@@ -49,15 +52,11 @@ export class Farm {
   }
 
   buildPlot(position, value) {
-    if(position.x < 0 || position.x > this.width)
-      throw new Error("Farm position x is out of bounds")
-    if(position.y < 0 || position.y > this.height)
-      throw new Error("Farm position y is out of bounds")
-
-    if(value < 0 || value > MAX_CODE)
-      throw new Error("Building value is out of bounds")
-    if(value === 0)
-      throw new Error("Cannot build a building with existing value of 0")
+    validateBuildPlot(position, value, {
+      width: this.width,
+      height: this.height,
+      MAX_CODE
+    })
 
     let row = this.mipmap[position.y]
     this.mipmap[position.y] = [
