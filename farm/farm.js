@@ -46,6 +46,11 @@ export class Farm {
   }
 
   buildPlot(position, value) {
+    if(position.x < 0 || position.x > this.width)
+      throw new Error("Farm position x is out of bounds")
+    if(position.y < 0 || position.y > this.height)
+      throw new Error("Farm position y is out of bounds")
+
     let row = this.mipmap[position.y]
     this.mipmap[position.y] = [
       ...row.slice(0, position.x),
