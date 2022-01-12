@@ -144,8 +144,8 @@ describe("Farm Town's Farm", () => {
 
     it("resets a specified plot of farm land to its initial state, 0", () => {
       farm.buildPlot({x: 0, y: 0}, 1)
-
-      farm.clearPlot()
+      
+      farm.clearPlot({x: 0, y: 0})
 
       expect(farm.mipmap[0][0]).toEqual(0)
     })

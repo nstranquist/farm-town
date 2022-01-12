@@ -72,7 +72,7 @@ export class Farm {
     ]
   }
 
-  clearPlot() {
-    
+  clearPlot(position) {
+    this.mipmap[position.y][position.x] = 0
   }
 }
