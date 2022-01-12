@@ -16,11 +16,11 @@ describe("Farm Town's Farm", () => {
       expect(farm.width).toEqual(5)
       expect(farm.height).toEqual(5)
       expect(farm.mipmap).toEqual([
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0,
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
       ])
     })
   })
@@ -35,11 +35,11 @@ describe("Farm Town's Farm", () => {
       expect(farm.width).toEqual(prevWidth + 1)
 
       expect(farm.mipmap).toEqual([
-        0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0,
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
       ])
     })
   })
