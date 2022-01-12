@@ -1,7 +1,7 @@
 export const validateBuildPlot = (position, value, params) => {
-  if(position.x < 0 || position.x > params.width)
+  if(position.x < 0 || position.x >= params.width)
     throw new Error("Farm position x is out of bounds")
-  if(position.y < 0 || position.y > params.height)
+  if(position.y < 0 || position.y >= params.height)
     throw new Error("Farm position y is out of bounds")
 
   if(value < 0 || !params.BUILDING_CODES.includes(value))

@@ -73,6 +73,13 @@ export class Farm {
   }
 
   clearPlot(position) {
+    if(position.x < 0 || position.x >= this.width)
+      throw new Error("")
+    if(position.y < 0 || position.y >= this.height)
+      throw new Error("")
+    if(this.mipmap[position.y][position.x] === 0)
+      throw new Error("Cannot clear plot that is already at value 0")
+    
     this.mipmap[position.y][position.x] = 0
   }
 }

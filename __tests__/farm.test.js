@@ -149,5 +149,12 @@ describe("Farm Town's Farm", () => {
 
       expect(farm.mipmap[0][0]).toEqual(0)
     })
+
+    it("throws an error when clearing an invalid plot position", () => {
+      expect(() => farm.clearPlot({x: -1, y: 0})).toThrow()
+      expect(() => farm.clearPlot({x: 5, y: 0})).toThrow()
+      expect(() => farm.clearPlot({x: 0, y: -1})).toThrow()
+      expect(() => farm.clearPlot({x: 0, y: 5})).toThrow()
+    })
   })
 })
