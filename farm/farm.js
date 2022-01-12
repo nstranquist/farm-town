@@ -41,6 +41,11 @@ export class Farm {
   }
 
   expandBottom() {
-    
+    this.mipmap = [
+      ...this.mipmap,
+      new Array(this.width).fill(0)
+    ]
+
+    this.height += 1
   }
 }
