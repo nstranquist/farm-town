@@ -9,3 +9,12 @@ export const validateBuildPlot = (position, value, params) => {
   if(value === 0)
     throw new Error("Cannot build a building with existing value of 0")
 }
+
+export const validateClearPlot = (position, params) => {
+  if(position.x < 0 || position.x >= params.width)
+    throw new Error("")
+  if(position.y < 0 || position.y >= params.height)
+    throw new Error("")
+  if(params.value === 0)
+    throw new Error("Cannot clear plot that is already at value 0")
+}

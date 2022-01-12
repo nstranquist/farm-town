@@ -150,11 +150,13 @@ describe("Farm Town's Farm", () => {
       expect(farm.mipmap[0][0]).toEqual(0)
     })
 
-    it("throws an error when clearing an invalid plot position", () => {
+    it("throws an error when clearing an invalid plot position or value", () => {
       expect(() => farm.clearPlot({x: -1, y: 0})).toThrow()
       expect(() => farm.clearPlot({x: 5, y: 0})).toThrow()
       expect(() => farm.clearPlot({x: 0, y: -1})).toThrow()
       expect(() => farm.clearPlot({x: 0, y: 5})).toThrow()
+      // should throw because cannot clear plot with value '0'
+      expect(() => farm.clearPlot({x: 0, y: 0})).toThrow()
     })
   })
 })
