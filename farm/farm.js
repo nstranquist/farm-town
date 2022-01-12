@@ -54,6 +54,11 @@ export class Farm {
     if(position.y < 0 || position.y > this.height)
       throw new Error("Farm position y is out of bounds")
 
+    if(value < 0 || value > MAX_CODE)
+      throw new Error("Building value is out of bounds")
+    if(value === 0)
+      throw new Error("Cannot build a building with existing value of 0")
+
     let row = this.mipmap[position.y]
     this.mipmap[position.y] = [
       ...row.slice(0, position.x),
