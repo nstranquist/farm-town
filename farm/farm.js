@@ -46,6 +46,11 @@ export class Farm {
   }
 
   buildPlot(position, value) {
-
+    let row = this.mipmap[position.y]
+    this.mipmap[position.y] = [
+      ...row.slice(0, position.x),
+      value,
+      ...row.slice(position.x + 1, row.length)
+    ]
   }
 }
