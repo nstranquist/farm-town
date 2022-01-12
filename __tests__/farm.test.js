@@ -15,7 +15,13 @@ describe("Farm Town's Farm", () => {
     it("initializes farm with correct initial data structures", () => {
       expect(farm.width).toEqual(5)
       expect(farm.height).toEqual(5)
-      expect(farm.mipmap).toEqual(new Array(25).fill(0))
+      expect(farm.mipmap).toEqual([
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0,
+      ])
     })
   })
 
@@ -27,6 +33,14 @@ describe("Farm Town's Farm", () => {
       farm.expandLeft()
 
       expect(farm.width).toEqual(prevWidth + 1)
+
+      expect(farm.mipmap).toEqual([
+        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0,
+      ])
     })
   })
 })
