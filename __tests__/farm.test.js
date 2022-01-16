@@ -1,6 +1,7 @@
 // code here
 import {
-  helloFarm
+  helloFarm,
+  initTileArr
 } from '../farm/farm'
 
 // 1. Write Test

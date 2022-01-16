@@ -4,3 +4,14 @@ export const helloFarm = (name) => {
   }
   return "hello " + name
 }
+
+export const initTileArr = () => {
+  let tileArr =[
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0]
+  ]
+  return tileArr
+}
