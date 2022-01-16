@@ -11,13 +11,14 @@ import {
 describe("helloFarm", () => {
   it("return the greeting message", () => {
     // Arrange
-    const msg = helloFarm()
-
+    let name = "cone-r"
+    const msg = helloFarm(name)
+  
     // Act
 
 
     // Assert
-    expect(msg).toEqual("hello farm")
+    expect(msg).toEqual("hello cone-r")
   
   })
 })

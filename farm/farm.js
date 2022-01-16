@@ -1,4 +1,4 @@
-export const helloFarm = () => {
-  return "hello farm"
+export const helloFarm = (name) => {
+  return "hello " + name
 }
 
