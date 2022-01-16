@@ -10,3 +10,13 @@ import {
 // 3. Write the code to pass the test
 
 // 4. Refactor
+
+describe("text", () => {
+  it("text", () => {
+    // Arrange
+    
+    // Act
+
+    // Assert
+  })
+})
