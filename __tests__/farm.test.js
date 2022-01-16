@@ -32,6 +32,14 @@ describe("initialize farm", () => {
   it("returns tile array", () => {
     const tileArr = initTileArr()
 
-    expect(tileArr).toEqual("randomTileArr")
+    expect(tileArr).toEqual(
+      [
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0]
+      ]
+    )
   })
 })
