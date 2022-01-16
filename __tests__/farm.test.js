@@ -10,15 +10,20 @@ import {
 
 describe("helloFarm", () => {
   it("return the greeting message", () => {
-    // Arrange
     let name = "cone-r"
     const msg = helloFarm(name)
-  
-    // Act
 
-
-    // Assert
     expect(msg).toEqual("hello cone-r")
-  
+  })
+
+  it("return player name", () => {
+    let name = "Eric"
+    const msg = helloFarm(name)
+
+    expect(msg).toEqual("hello Eric")
+  })
+
+  it("throws error if empty string", () => {
+    expect(() => helloFarm("")).toThrow("Can't pass empty message")
   })
 })
