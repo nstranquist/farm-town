@@ -1,5 +1,5 @@
-import Farm from '../farm'
-import { BUILDING_CODES } from '../farm/farm'
+import Farm from '../farm-class'
+import { BUILDING_CODES } from '../farm/farm-class'
 
 
 // Arrange, Act, Assert

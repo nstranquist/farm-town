@@ -1,7 +1,7 @@
 import {
   validateBuildPlot,
   validateClearPlot,
-} from './farm-validator'
+} from '../farm/farm-validator'
 
 const INITIAL_WIDTH = 5;
 const INITIAL_HEIGHT = 5;
