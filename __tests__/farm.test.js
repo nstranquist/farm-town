@@ -1,94 +1,12 @@
-import Farm from '../farm'
+// code here
+import {
+  helloFarm
+} from '../farm/farm'
 
+// 1. Write Test
 
-// Arrange, Act, Assert
-// Zero, One, Many, Boundaries, Exceptions, Interface Definitions, Simple Solutions and Scenarios
+// 2. Make sure the test fails
 
-describe("Farm Town's Farm", () => {
-  let farm;
+// 3. Write the code to pass the test
 
-  beforeEach(() => {
-    farm = new Farm()
-  })
-
-  describe("Farm initialization", () => {
-    it("initializes farm with correct initial data structures", () => {
-      expect(farm.width).toEqual(5)
-      expect(farm.height).toEqual(5)
-      expect(farm.mipmap).toEqual([
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-      ])
-    })
-  })
-
-  describe("Farm expansion", () => {
-    beforeEach(() => farm = new Farm())
-
-    it("expands 1 dimension to the left", () => {
-      let prevWidth = farm.width;
-      farm.expandLeft()
-
-      expect(farm.width).toEqual(prevWidth + 1)
-
-      expect(farm.mipmap).toEqual([
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-      ])
-    })
-
-    it("expands 1 dimension to the right", () => {
-      let prevWidth = farm.width;
-      farm.expandRight()
-
-      expect(farm.width).toEqual(prevWidth + 1)
-
-      // NOTE: hard to tell if adding new values correctly since all are 0's
-      expect(farm.mipmap).toEqual([
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0],
-      ])
-    })
-
-    it("expands 1 dimension to the top", () => {
-      let prevHeight = farm.height;
-      farm.expandTop()
-
-      expect(farm.height).toEqual(prevHeight + 1)
-
-      expect(farm.mipmap).toEqual([
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-      ])
-    })
-
-    it("expands 1 dimension to the bottom", () => {
-      let prevHeight = farm.height;
-      farm.expandBottom()
-
-      expect(farm.height).toEqual(prevHeight + 1)
-
-      expect(farm.mipmap).toEqual([
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-      ])
-    })
-  })
-})
+// 4. Refactor
