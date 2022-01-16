@@ -13,6 +13,7 @@ import {
 
 describe("text", () => {
   it("text", () => {
+    console.log("You Stanky")
     // Arrange
     
     // Act
