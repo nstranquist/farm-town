@@ -43,4 +43,21 @@ describe("initialize farm", () => {
       ]
     )
   })
+
+  it("contains random three starter tiles", () => {
+    const tileArr = initTileArr()
+
+    let tileCounter = 0
+    let newArr = tileArr
+    for(let i=0; i<5; i++) {
+      for(let j=0; j<5; j++) {
+        if(newArr[i][j] != 0) {
+          tileCounter++
+        }
+      }
+    }
+    
+    expect(tileCounter).toEqual(3)
+
+  })
 })

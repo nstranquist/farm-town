@@ -6,7 +6,7 @@ export const helloFarm = (name) => {
 }
 
 export const initTileArr = () => {
-  let tileArr =[
+  let tileArr = [
     [0,0,0,0,0],
     [0,0,0,0,0],
     [0,0,0,0,0],
