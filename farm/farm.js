@@ -5,25 +5,43 @@ export const helloFarm = (name) => {
   return "hello " + name
 }
 
-export const initTileArr = () => {
-  let tileArr = [
-    [0,0,0,0,0],
-    [0,0,0,0,0],
-    [0,0,0,0,0],
-    [0,0,0,0,0],
-    [0,0,0,0,0]
-  ]
+export const getEmptyTileArr = (width, height) => {
+  let newArr = new Array(height).fill(
+    new Array(width).fill(0)
+  )
+  console.log(newArr)
+  return newArr;
+}
+
+export const initTileArr = (tileArray) => {
+  let newArray = getEmptyTileArr(5, 5);
   for(let i = 1; i < 4; i++) {
-    let height = 0, width = 0
+    let height = getRandomNumber(5)
+    let width = getRandomNumber(5)
+    newArray = insertTileIntoArray(tileArray, {height, width}, i)
     // Prevent duplicate coords
-    while(true) {
-      height = Math.floor(Math.random()*5)
-      width = Math.floor(Math.random()*5)
-      if(tileArr[height][width] == 0) {
-        tileArr[height][width] = i
-        break
-      }
+    while(!newArray) {
+      height = getRandomNumber(5)
+      width = getRandomNumber(5)
+      newArray = insertTileIntoArray(tileArray, {height, width}, i)
     }
   }
-  return tileArr
+  return tileArray
 }
+
+export const insertTileIntoArray = (tileArray, position, value) => {
+  const { width, height } = position;
+
+  if(tileArray[height][width] !== 0)
+    return null
+
+  tileArray[height] = [
+    ...tileArray[height].slice(0, width),
+    value,
+    ...tileArray[height].slice(width + 1)
+  ]
+
+  return tileArray
+}
+
+export const getRandomNumber = (num) => Math.floor(Math.random() * num)

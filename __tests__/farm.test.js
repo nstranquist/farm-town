@@ -1,7 +1,9 @@
 // code here
 import {
+  getEmptyTileArr,
   helloFarm,
-  initTileArr
+  initTileArr,
+  insertTileIntoArray
 } from '../farm/farm'
 
 // 1. Write Test
@@ -30,22 +32,71 @@ describe("helloFarm", () => {
 })
 
 describe("initialize farm", () => {
+  let tileArray;
+
+  beforeEach(() => {
+    tileArray = getEmptyTileArr(5, 5)
+  })
 
 
   it("contains random three starter tiles", () => {
-    const tileArr = initTileArr()
-
-    let tileCounter = 0
-    let newArr = tileArr
-    for(let i=0; i<5; i++) {
-      for(let j=0; j<5; j++) {
-        if(newArr[i][j] != 0) {
-          tileCounter++
-        }
-      }
+    // Arrange
+    const positionMockOne = {
+      height: 4,
+      width: 4
     }
-    
-    expect(tileCounter).toEqual(3)
+    const positionMockTwo = {
+      height: 2,
+      width: 3
+    }
+    const positionMockThree = {
+      height: 0,
+      width: 0
+    }
 
+    // Act
+    tileArray = insertTileIntoArray(tileArray, positionMockOne, 1)
+    tileArray = insertTileIntoArray(tileArray, positionMockTwo, 2)
+    tileArray = insertTileIntoArray(tileArray, positionMockThree, 3)
+    console.log(tileArray)
+    expect(tileArray).toEqual([
+      [3, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 2, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1],
+    ])
+  })
+
+  // Check for errors
+  it("throws error or resolves error if putting in a value to an existing tile", () => {
+    // Arrange
+    // Create 2 mocks
+    const positionMockOne = {
+      height: 4,
+      width: 4
+    }
+    const positionMockTwo = {
+      height: 4,
+      width: 4
+    }
+
+    // Act
+    // Insert mock 1,
+    insertTileIntoArray(tileArray, positionMockOne, 1)
+    insertTileIntoArray(tileArray, positionMockTwo, 2)
+
+    // Assert
+    // expect(() => insertTileIntoArray(tileArray, positionMockTwo, 2)).toThrow("tile is already populated")
+    expect(tileArray[4][4]).toEqual(1)
+  })
+
+  it("throws out of bounds exception", () => {
+    const mock = {
+      height: 6,
+      width: 20
+    }
+
+    expect(() => insertTileIntoArray(tileArray, mock, 1)).toThrow("out of bounds")
   })
 })
