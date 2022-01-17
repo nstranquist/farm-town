@@ -8,6 +8,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Farm Town | Welcome</title>
+        <link rel="icon" href="/farm.svg" />
       </Head>
       <main className={styles.main}>
         <Link href="/farm">Go to Farm</Link>

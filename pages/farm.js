@@ -126,7 +126,7 @@ export default function FarmPage() {
       <Head>
         <title>Farm Town</title>
         <meta name="description" content="Create a farm to play with" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/farm.svg" />
       </Head>
 
       <style jsx>{`.selected {background: rgba(152,251,152, 1);border-color: rgba(0,0,0,.1);}`}</style>
