@@ -50,5 +50,26 @@ describe("Farm Town's Farm", () => {
 
       expect(newMipmap).toEqual(mipmapFixtures.expandBottom.after)
     })
+
+    // TODO: Error cases for exceeding a defined max width / height
+  })
+
+  describe("Farm Plot Actions", () => {
+    it("builds a value on a specified plot of land", () => {
+      let mipmap = mipmapFixtures.buildPlot.before
+      const position1 = { x: 2, y: 2 }
+      const position2 = { x: 1, y: 0 }
+      const position3 = { x: 4, y: 3 }
+
+      mipmap = buildPlot(mipmap, 5, 5, position1, 1)
+      mipmap = expandLeft(mipmap)
+      mipmap = buildPlot(mipmap, 6, 5, position2, 2)
+      mipmap = expandTop(mipmap)
+      mipmap = buildPlot(mipmap, 6, 6, position3, 3)
+
+      console.log(mipmap)
+
+      expect(mipmap).toEqual(mipmapFixtures.buildPlot.after)
+    })
   })
 })

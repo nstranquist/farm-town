@@ -1,19 +1,23 @@
+
+const emptyFarm = [
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0],
+]
+const testExpandInitial = [
+  [0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 1],
+  [0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 0],
+]
+
 export const mipmapFixtures = {
-  initial: [
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-  ],
+  initial: emptyFarm,
   expandLeft: {
-    before: [
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 1],
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-    ],
+    before: testExpandInitial,
     after: [
       [0, 0, 0, 1, 0, 0],
       [0, 0, 0, 0, 0, 0],
@@ -23,13 +27,7 @@ export const mipmapFixtures = {
     ],
   },
   expandRight: {
-    before: [
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 1],
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-    ],
+    before: testExpandInitial,
     after: [
       [0, 0, 1, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
@@ -39,13 +37,7 @@ export const mipmapFixtures = {
     ],
   },
   expandTop: {
-    before: [
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 1],
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-    ],
+    before: testExpandInitial,
     after: [
       [0, 0, 0, 0, 0],
       [0, 0, 1, 0, 0],
@@ -56,13 +48,7 @@ export const mipmapFixtures = {
     ],
   },
   expandBottom: {
-    before: [
-      [0, 0, 1, 0, 0],
-      [0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 1],
-      [0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0],
-    ],
+    before: testExpandInitial,
     after: [
       [0, 0, 1, 0, 0],
       [0, 0, 0, 0, 0],
@@ -72,4 +58,17 @@ export const mipmapFixtures = {
       [0, 0, 0, 0, 0],
     ],
   },
+  
+  // plot
+  buildPlot: {
+    before: emptyFarm,
+    after: [
+      [0, 0, 0, 0, 0, 0],
+      [0, 2, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 3, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+    ]
+  }
 }
