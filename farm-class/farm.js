@@ -1,6 +1,19 @@
+import {
+  validateBuildPlot,
+  validateClearPlot,
+} from '../farm/farm-validator'
 
 const INITIAL_WIDTH = 5;
 const INITIAL_HEIGHT = 5;
+
+// will update as new buildings are added
+export const BUILDING_CODES = [
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+  11, 12, 13,
+  21, 22, 23, 24, 25,
+  31, 32,
+  41, 42, 43, 44, 45, 46, 47
+]
 
 export class Farm {
   constructor() {
@@ -43,5 +56,30 @@ export class Farm {
     ]
 
     this.height += 1
+  }
+
+  buildPlot(position, value) {
+    validateBuildPlot(position, value, {
+      width: this.width,
+      height: this.height,
+      BUILDING_CODES
+    })
+
+    let row = this.mipmap[position.y]
+    this.mipmap[position.y] = [
+      ...row.slice(0, position.x),
+      value,
+      ...row.slice(position.x + 1, row.length)
+    ]
+  }
+
+  clearPlot(position) {
+    validateClearPlot(position, {
+      width: this.width,
+      height: this.height,
+      value: this.mipmap[position.y][position.x]
+    })
+    
+    this.mipmap[position.y][position.x] = 0
   }
 }

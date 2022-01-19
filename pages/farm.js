@@ -1,26 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import homeStyles from '../styles/Home.module.css'
 import styles from '../styles/Farm.module.css'
-import create from 'zustand'
+import useStore from '../farm/farm'
 
-const MAX_TILES = 15 // max tiles in any direction, so max grid is 15x15=225
-
-const initialWidth = 5
-const initialHeight = 5
 
 const initialFarm = {
-  width: initialWidth,
-  height: initialHeight,
-  mipmap: new Array(initialHeight * initialWidth).fill(0, 0, initialHeight * initialWidth),
-  mipmapExample: [
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0,
-  ],
   selectedTile: null,
   isEditing: false,
   state: ""
@@ -43,49 +28,46 @@ const actions = [
 
 ]
 
-const useFarmStore = create(set => ({
-  ...initialFarm,
-  selectTile: (index) => set({ selectedTile: index }),
-  addTileLeft: () => set(state => ({
-    width: state.width + 1,
-    // 0, 6, 11 elements should be replaced
-    mipmap: [
-      ...state.mipmap,
-      ...new Array(state.height).fill(0)
-      // ...
-    ]
-  })),
-  addTileTop: () => set(state => ({
-    height: state.height + 1,
-    mipmap: [
-      ...state.mipmap,
-      ...new Array(state.width).fill(0)
-    ]
-  })),
-  setIsEditing: (isEditing = false) => set({ isEditing }),
-  setFarmState: (newState = "") => set({ state: newState }),
-  
-  reset: () => set(initialFarm)
-}))
+// - get flattened mipmap
 
-export default function Farm() {
-  const farm = useFarmStore()
+export default function FarmPage() {
+  const farm = useStore()
+
+  const [selectedTile, setSelectedTile] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [farmActionState, setFarmActionState] = useState("")
 
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState(null)
 
+  console.log('selected tile:', selectedTile)
+
+  const resetFarm = () => {
+    farm.reset()
+    setSelectedTile(null)
+    setFarmActionState("")
+    setLoading(false)
+    setErrors(null)
+  }
+
   const renderFarm = useCallback(() => {
     // return array of farm objects
-    let farms = farm.mipmap.map((tileType, index) => {
-      return {
-        index,
-        type: tileType,
-        // ... other data
-      }
+    let farms = farm.mipmap.map((row, rowIndex) => {
+      let newRow = row.map((tile, tileIndex) => {
+        return {
+          position: {
+            x: tileIndex,
+            y: rowIndex
+          },
+          value: tile,
+          // ... other data
+        }
+      })
+      return newRow
     })
 
     return farms
-  }, [farm.mipmap])
+  }, [farm.mipmap, farm.width, farm.height])
 
   useEffect(() => {
     // fetch data (or use getInitialProps)
@@ -93,46 +75,43 @@ export default function Farm() {
   }, [])
 
   const handleSelectTile = tile => {
-    farm.selectTile(tile.index)
-  }
-
-  const buyTile = direction => {
-    if((direction === "left" || direction === "right") && farm.width + 1 >= MAX_TILES)
+    if(selectedTile?.position?.x === tile.position?.x && selectedTile?.position?.y === tile.position?.y) {
+      setSelectedTile(null)
       return;
-    if((direction === "top" || direction === "bottom") && farm.height + 1 >= MAX_TILES)
-      return;
-
-    switch(direction) {
-      case "left":
-        farm.addTileLeft()
-        break;
-      case "right":
-        farm.addTileLeft()
-
-        break;
-      case "top":
-        farm.addTileTop()
-
-        break;
-      case "bottom":
-        farm.addTileTop()
-
-        break;
-      default:
-        console.log('unkown option')
-        break;
     }
+
+    setSelectedTile(tile)
   }
 
   const handleSellTile = () => {
-    farm.selectTile(null)
-    farm.setFarmState(farm.isEditing ? "" : "editing")
-    farm.setIsEditing(!farm.isEditing)
+    setSelectedTile(null)
+    setFarmActionState(isEditing ? "" : "editing")
+    setIsEditing(!isEditing)
+  }
+
+  const buildTile = (value) => {
+    if(farmActionState === "selling" || farmActionState === "editing") {
+      alert("you cannot buy while selling")
+      return;
+    }
+    if(!selectedTile || !selectedTile.position)
+      return;
+    if(selectedTile.value !== 0) {
+      alert("cannot build on an existing tile. must destroy it first")
+      return;
+    }
+
+    console.log("buildTile value:", value)
+    farm.buildPlot(selectedTile.position, value)
+    setSelectedTile(null)
   }
 
   const sellTile = () => {
-    // reset the mipmap to 0
-    // farm.setMi
+    if(!selectedTile || !selectedTile.position)
+      return
+
+    farm.clearPlot(selectedTile.position)
+    setSelectedTile(null)
   }
 
   return (
@@ -140,7 +119,7 @@ export default function Farm() {
       <Head>
         <title>Farm Town</title>
         <meta name="description" content="Create a farm to play with" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/farm.svg" />
       </Head>
 
       <style jsx>{`.selected {background: rgba(152,251,152, 1);border-color: rgba(0,0,0,.1);}`}</style>
@@ -155,11 +134,13 @@ export default function Farm() {
           <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
             <div className={styles.farmContainer} style={{gridTemplateColumns: `repeat(${farm.width}, 1fr)`, gridTemplateRows: `repeat(${farm.height}, 1fr)`}}>
               {/* Render Farm by Height and Width */}
-              {renderFarm().map((tile, index) => (
-                <div className={`${styles.farmTile} ${farm.selectedTile === tile.index ? "selected" : ""}`} key={`${index}-${tile.type}`} onClick={() => handleSelectTile(tile)}>
-                  <span>{tile.type}</span>
-                </div>
-              ))}
+              {renderFarm().map((row, rowIndex) => {
+                return row.map((tile, tileIndex) => (
+                  <div className={`${styles.farmTile} ${(selectedTile?.position.x === tile.position.x && selectedTile?.position.y === tile.position.y) ? "selected" : ""}`} key={`${rowIndex}-${tileIndex}-${tile.value}`} onClick={() => handleSelectTile(tile)}>
+                    <span>{tile.value}</span>
+                  </div>
+                ))
+              })}
             </div>
           </div>
 
@@ -168,35 +149,36 @@ export default function Farm() {
               <span>I</span>
               <span>Buy Tile</span>
               <ul className={styles.menuDropdown}>
-                <li className={styles.menuDropdownItem} onClick={() => buyTile("left")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandLeft()}>
                   Expand Left ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buyTile("right")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandRight()}>
                   Expand Right ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buyTile("top")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandTop()}>
                   Expand Up ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buyTile("bottom")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandBottom()}>
                   Expand Down ($500)
                 </li>
               </ul>
             </li>
+            {/* Can Make pop-up appear to select, or create another nested menu with the full options */}
             <li className={`${styles.actionsItem} ${styles.actionsItemMenu}`}>
               <span>B</span>
               <span>Build</span>
               <ul className={styles.menuDropdown}>
-                <li className={styles.menuDropdownItem}>
-                  Housing
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(1)}>
+                  Housing (1)
                 </li>
-                <li className={styles.menuDropdownItem}>
-                  Landscape
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(2)}>
+                  Landscape (2)
                 </li>
-                <li className={styles.menuDropdownItem}>
-                  Factory
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(3)}>
+                  Factory (3)
                 </li>
-                <li className={styles.menuDropdownItem}>
-                  Attraction
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(4)}>
+                  Attraction (4)
                 </li>
               </ul>
             </li>
@@ -207,13 +189,13 @@ export default function Farm() {
           </ul>
 
           {/* Selecting Menu */}
-          {farm.isEditing && (
+          {isEditing && (
             <div className={styles.selectionMenuContainer}>
               <ul className={styles.selectionMenu}>
                 {/* Depending on Active Action */}
-                {farm.state === "selling" || farm.state === "editing" && (
+                {farmActionState === "selling" || farmActionState === "editing" && (
                   <>
-                    <li className={`${styles.selectionMenuItem} ${farm.selectedTile ? "" : styles.disabled}`} onClick={sellTile}>
+                    <li className={`${styles.selectionMenuItem} ${selectedTile ? "" : styles.disabled}`} onClick={() => sellTile()}>
                       <span>S</span>
                       <span>Sell</span>
                     </li>
@@ -231,18 +213,18 @@ export default function Farm() {
         <section className={styles.controlsContainer}>
           <header className={styles.controlsHeader}>
             <h3>Controls</h3>
-            <div className={styles.controlsSettings} onClick={() => farm.reset()}>
-              <span>Clear</span>
+            <div className={styles.controlsSettings} onClick={() => resetFarm()}>
+              <span>Clear (dev)</span>
             </div>
           </header>
 
           {/* Controls List */}
           <ul className={styles.controlsList}>
-            {Object.keys(farm).filter(key => key !== "mipmapExample").map((key, ind) => (
+            {/* {Object.keys(farm).filter(key => key !== "mipmapExample").map((key, ind) => (
               <li key={`${ind}-${key}`} className={styles.controlsItem}>
                 {key}: {farm[key] ? typeof farm[key] !== "function" ? farm[key].toString() : "() => ..." : "undef"}
               </li>
-            ))}
+            ))} */}
           </ul>
         </section>
       </main>

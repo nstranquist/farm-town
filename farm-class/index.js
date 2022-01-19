@@ -1,3 +1,1 @@
-import { Farm as FarmClass } from './farm'
-
-export default FarmClass
+// Import / Export from farm.js
