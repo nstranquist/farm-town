@@ -32,8 +32,8 @@ const useStore = create((set, get) => ({
   // functions
   expandLeft: () => set(prev => ({ mipmap: expandLeft(prev.mipmap), width: prev.width + 1 })),
   expandRight: () => set(prev => expandRight(prev.mipmap)),
-  expandTop: () => set(prev => expandTop(prev.mipmap, prev.width)),
-  expandBottom: () => set(prev => expandBottom(prev.mipmap, prev.width)),
+  expandTop: () => set(prev => expandTop(prev.mipmap)),
+  expandBottom: () => set(prev => expandBottom(prev.mipmap)),
   buildPlot: (position, value) => set(prev => buildPlot(prev.mipmap, prev.width, prev.height, position, value)),
   clearPlot: (position) => set(prev => clearPlot(prev.mipmap, prev.width, prev.height, position)),
 }))
@@ -51,14 +51,16 @@ export const expandRight = (mipmap) => {
   })
 }
 
-export const expandTop = (mipmap, width) => {
+export const expandTop = (mipmap) => {
+  const width = mipmap[0].length;
   return [
     new Array(width).fill(0),
     ...mipmap
   ]
 }
 
-export const expandBottom = (mipmap, width) => {
+export const expandBottom = (mipmap) => {
+  const width = mipmap[0].length;
   return [
     ...mipmap,
     new Array(width).fill(0)
