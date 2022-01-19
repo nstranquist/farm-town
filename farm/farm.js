@@ -23,7 +23,7 @@ export const BUILDING_CODES = [
   41, 42, 43, 44, 45, 46, 47
 ]
 
-export const useStore = create((set, get) => ({
+const useStore = create((set, get) => ({
   // data structures
   width: INITIAL_WIDTH,
   height: INITIAL_HEIGHT,
@@ -100,3 +100,5 @@ export const clearPlot = (mipmap, width, height, position) => {
 
   return mipmap
 }
+
+export default useStore

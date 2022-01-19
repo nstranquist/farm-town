@@ -3,7 +3,7 @@ import Head from 'next/head'
 import homeStyles from '../styles/Home.module.css'
 import styles from '../styles/Farm.module.css'
 import * as farm from "../farm/farm.js"
-import { useStore } from '../farm/farm'
+import useStore from '../farm/farm'
 
 
 const initialFarm = {
