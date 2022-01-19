@@ -1,11 +1,11 @@
 import {
-  INITIAL_MIPMAP,
   expandLeft,
   expandRight,
   expandTop,
   expandBottom,
   buildPlot,
-  clearPlot
+  clearPlot,
+  INITIAL_MIPMAP
 } from '../farm/farm'
 import { mipmapFixtures } from '../farm/fixtures'
 
@@ -15,7 +15,7 @@ describe("Farm Town's Farm", () => {
 
   describe("Farm Initialization", () => {
     it("generates the farm mipmap", () => {
-      const mipmap = INITIAL_MIPMAP();
+      const mipmap = INITIAL_MIPMAP;
 
       expect(mipmap).toEqual(mipmapFixtures.initial)
     })
@@ -60,6 +60,7 @@ describe("Farm Town's Farm", () => {
   describe("Farm Plot Actions", () => {
     it("builds a value on a specified plot of land", () => {
       let mipmap = mipmapFixtures.buildPlot.before
+      
       const position1 = { x: 2, y: 2 }
       const position2 = { x: 1, y: 0 }
       const position3 = { x: 4, y: 3 }
@@ -92,22 +93,19 @@ describe("Farm Town's Farm", () => {
   })
 
   it("resets a specified plot of farm land to its initial state, 0", () => {
-    let mipmap = mipmapFixtures.initial;
-    console.log(mipmap)
+    let mipmap = mipmapFixtures.initial
 
     mipmap = buildPlot(mipmap, WIDTH, HEIGHT, {x: 0, y: 0}, 1)
-    console.log(mipmap)
+
     expect(mipmap).not.toEqual(mipmapFixtures.initial)
-    
+
     mipmap = clearPlot(mipmap, WIDTH, HEIGHT, {x: 0, y: 0})
-    console.log(mipmap)
 
     expect(mipmap).toEqual(mipmapFixtures.initial)
   })
 
   it("throws an error when clearing an invalid plot position or value", () => {
     const mipmap = mipmapFixtures.initial;
-    console.log(mipmap)
 
     expect(() => clearPlot(mipmap, WIDTH, HEIGHT, {x: -1, y: 0})).toThrow()
     expect(() => clearPlot(mipmap, WIDTH, HEIGHT, {x: 5, y: 0})).toThrow()

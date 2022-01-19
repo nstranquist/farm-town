@@ -8,11 +8,9 @@ import {
 
 export const INITIAL_WIDTH = 5;
 export const INITIAL_HEIGHT = 5;
-export const INITIAL_MIPMAP = () => (
-  new Array(INITIAL_HEIGHT).fill(
-    new Array(INITIAL_WIDTH).fill(0)
-  )
-)
+export const INITIAL_MIPMAP = [...new Array(INITIAL_HEIGHT)].map((row) => {
+  return [...new Array(INITIAL_WIDTH)].map(() => 0)
+});
 
 // will update as new buildings are added
 export const BUILDING_CODES = [
@@ -27,7 +25,7 @@ const useStore = create((set, get) => ({
   // data structures
   width: INITIAL_WIDTH,
   height: INITIAL_HEIGHT,
-  mipmap: INITIAL_MIPMAP(),
+  mipmap: INITIAL_MIPMAP,
 
   // functions
   expandLeft: () => set(prev => ({ mipmap: expandLeft(prev.mipmap), width: prev.width + 1 })),
@@ -54,7 +52,7 @@ export const expandRight = (mipmap) => {
 export const expandTop = (mipmap) => {
   const width = mipmap[0].length;
   return [
-    new Array(width).fill(0),
+    [...new Array(width)].map(() => 0),
     ...mipmap
   ]
 }
@@ -63,7 +61,7 @@ export const expandBottom = (mipmap) => {
   const width = mipmap[0].length;
   return [
     ...mipmap,
-    new Array(width).fill(0)
+    [...new Array(width)].map(() => 0)
   ]
 }
 
@@ -74,15 +72,11 @@ export const buildPlot = (mipmap, width, height, position, value) => {
     BUILDING_CODES
   })
 
-  let row = mipmap[position.y]
+  let newMipmap = JSON.parse(JSON.stringify(mipmap))
 
-  mipmap[position.y] = [
-    ...row.slice(0, position.x),
-    value,
-    ...row.slice(position.x + 1)
-  ]
+  newMipmap[position.y][position.x] = value
 
-  return mipmap
+  return newMipmap
 }
 
 export const clearPlot = (mipmap, width, height, position) => {
@@ -92,15 +86,11 @@ export const clearPlot = (mipmap, width, height, position) => {
     value: mipmap[position.y][position.x]
   })
   
-  let row = mipmap[position.y]
+  let newMipmap = JSON.parse(JSON.stringify(mipmap))
+  
+  newMipmap[position.y][position.x] = 0
 
-  mipmap[position.y] = [
-    ...row.slice(0, position.x),
-    0,
-    ...row.slice(position.x + 1)
-  ]
-
-  return mipmap
+  return newMipmap
 }
 
 export default useStore
