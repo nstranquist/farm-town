@@ -7,26 +7,27 @@ import {
   buildPlot,
   clearPlot
 } from '../farm/farm'
+import { mipmapFixtures } from '../farm/fixtures'
 
 describe("Farm Town's Farm", () => {
   describe("Farm Initialization", () => {
     it("generates the farm mipmap", () => {
       const mipmap = INITIAL_MIPMAP();
 
-      console.log(mipmap)
-
-      expect(mipmap).toEqual([
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-      ])
+      expect(mipmap).toEqual(mipmapFixtures.initial)
     })
   })
 
   describe("Farm Expansion", () => {
     it("expands the farm to the left", () => {
+      const mipmap = mipmapFixtures.expandLeft.before
+
+      const newMipmap = expandLeft(mipmap)
+
+      expect(newMipmap).toEqual(mipmapFixtures.expandLeft.after)
+    })
+
+    it("expands the farm to the right", () => {
       const mipmap = [
         [0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0],
@@ -35,17 +36,15 @@ describe("Farm Town's Farm", () => {
         [0, 0, 1, 0, 0],
       ]
 
-      const newMipmap = expandLeft(mipmap)
+      const newMipmap = expandRight(mipmap)
 
       expect(newMipmap).toEqual([
-        [0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1, 0],
         [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0],
       ])
     })
-
-    
   })
 })
