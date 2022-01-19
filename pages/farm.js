@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import homeStyles from '../styles/Home.module.css'
 import styles from '../styles/Farm.module.css'
-import * as farm from "../farm/farm.js"
 import useStore from '../farm/farm'
 
 
@@ -76,6 +75,11 @@ export default function FarmPage() {
   }, [])
 
   const handleSelectTile = tile => {
+    if(selectedTile?.position?.x === tile.position?.x && selectedTile?.position?.y === tile.position?.y) {
+      setSelectedTile(null)
+      return;
+    }
+
     setSelectedTile(tile)
   }
 
@@ -85,11 +89,21 @@ export default function FarmPage() {
     setIsEditing(!isEditing)
   }
 
-  const buildTile = () => {
-    if(!selectedTile || !selectedTile.position || !selectedTile.value)
+  const buildTile = (value) => {
+    if(farmActionState === "selling" || farmActionState === "editing") {
+      alert("you cannot buy while selling")
       return;
+    }
+    if(!selectedTile || !selectedTile.position)
+      return;
+    if(selectedTile.value !== 0) {
+      alert("cannot build on an existing tile. must destroy it first")
+      return;
+    }
 
-    farm.buildPlot(selectedTile.position, selectedTile.value)
+    console.log("buildTile value:", value)
+    farm.buildPlot(selectedTile.position, value)
+    setSelectedTile(null)
   }
 
   const sellTile = () => {
@@ -97,29 +111,7 @@ export default function FarmPage() {
       return
 
     farm.clearPlot(selectedTile.position)
-  }
-
-  const expand = (direction) => {
-    switch(direction) {
-      case "left":
-        farm.expandLeft()
-        // setWidth(prev => prev + 1)
-        break;
-      case "right":
-        farm.expandRight()
-        // setWidth(prev => prev + 1)
-        break;
-      case "up":
-        farm.expandUp()
-        // setHeight(prev => prev + 1)
-        break;
-      case "bottom":
-        farm.expandBottom();
-        // setHeight(prev => prev + 1)
-        break;
-      default:
-        return;
-    }
+    setSelectedTile(null)
   }
 
   return (
@@ -157,16 +149,16 @@ export default function FarmPage() {
               <span>I</span>
               <span>Buy Tile</span>
               <ul className={styles.menuDropdown}>
-                <li className={styles.menuDropdownItem} onClick={() => expand("left")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandLeft()}>
                   Expand Left ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => expand("right")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandRight()}>
                   Expand Right ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => expand("up")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandTop()}>
                   Expand Up ($500)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => expand("bottom")}>
+                <li className={styles.menuDropdownItem} onClick={() => farm.expandBottom()}>
                   Expand Down ($500)
                 </li>
               </ul>
@@ -176,16 +168,16 @@ export default function FarmPage() {
               <span>B</span>
               <span>Build</span>
               <ul className={styles.menuDropdown}>
-                <li className={styles.menuDropdownItem} onClick={() => buildTile()}>
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(1)}>
                   Housing (1)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buildTile()}>
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(2)}>
                   Landscape (2)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buildTile()}>
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(3)}>
                   Factory (3)
                 </li>
-                <li className={styles.menuDropdownItem} onClick={() => buildTile()}>
+                <li className={styles.menuDropdownItem} onClick={() => buildTile(4)}>
                   Attraction (4)
                 </li>
               </ul>
@@ -203,7 +195,7 @@ export default function FarmPage() {
                 {/* Depending on Active Action */}
                 {farmActionState === "selling" || farmActionState === "editing" && (
                   <>
-                    <li className={`${styles.selectionMenuItem} ${farm.selectedTile ? "" : styles.disabled}`} onClick={() => sellTile()}>
+                    <li className={`${styles.selectionMenuItem} ${selectedTile ? "" : styles.disabled}`} onClick={() => sellTile()}>
                       <span>S</span>
                       <span>Sell</span>
                     </li>

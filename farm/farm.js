@@ -29,11 +29,11 @@ const useStore = create((set, get) => ({
 
   // functions
   expandLeft: () => set(prev => ({ mipmap: expandLeft(prev.mipmap), width: prev.width + 1 })),
-  expandRight: () => set(prev => expandRight(prev.mipmap)),
-  expandTop: () => set(prev => expandTop(prev.mipmap)),
-  expandBottom: () => set(prev => expandBottom(prev.mipmap)),
-  buildPlot: (position, value) => set(prev => buildPlot(prev.mipmap, prev.width, prev.height, position, value)),
-  clearPlot: (position) => set(prev => clearPlot(prev.mipmap, prev.width, prev.height, position)),
+  expandRight: () => set(prev => ({ mipmap: expandRight(prev.mipmap), width: prev.width + 1})),
+  expandTop: () => set(prev => ({ mipmap: expandTop(prev.mipmap), height: prev.height + 1})),
+  expandBottom: () => set(prev => ({ mipmap: expandBottom(prev.mipmap), height: prev.height + 1})),
+  buildPlot: (position, value) => set(prev => ({ mipmap: buildPlot(prev.mipmap, prev.width, prev.height, position, value) })),
+  clearPlot: (position) => set(prev => ({ mipmap: clearPlot(prev.mipmap, prev.width, prev.height, position) })),
 }))
 
 
